@@ -21,3 +21,9 @@ octave-workspace
 
 # Simulink autosave extension
 *.autosave
+
+# vim info
+*.swap~
+
+# ctags info
+tags
