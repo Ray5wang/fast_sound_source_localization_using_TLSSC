@@ -22,6 +22,12 @@ octave-workspace
 # Simulink autosave extension
 *.autosave
 
+# matlab data file
+*.mat
+
+# wav file
+*.wav
+
 # vim info
 *.swap~
 
