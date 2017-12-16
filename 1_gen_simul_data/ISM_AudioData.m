@@ -122,7 +122,7 @@ function [AuData] = ISM_AudioData(RIRFileName,SrcSignal,varargin)
 % 
 % You should have received a copy of the GNU General Public License
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+% 这里说明和AudioFileName相关的都没用
 VarList = {'AudioFileName'      [];         % file name to save audio data
            'Fs'                 [];         % sampling frequency if data to be saved as .wav file
            'AddNoiseFlag'       0;          % Set to 0 if you don't want additive noise
@@ -132,12 +132,14 @@ VarList = {'AudioFileName'      [];         % file name to save audio data
            'SilentFlag'         0};         % set to 1 for silent behaviour.
 eval(SetUserVars(VarList,varargin));   % set user-definable variables
 
-if min(size(SrcSignal))~=1,
+if min(size(SrcSignal))~=1,     % 检测是否为一维数据
     error('Source signal must be one-dimensional (single channel).');
 end
-SrcSignal = SrcSignal(:);   % make sure vector is column vector
+SrcSignal = SrcSignal(:);   % make sure vector is column vector 列向量
 
+% 解析文件名称，判断是否存在
 if ~isempty(AudioFileName),    % check save file name
+    disp(['----', AudioFileName])
     if length(AudioFileName)<=4 || (~strcmpi(AudioFileName(end-3:end),'.mat') && ~strcmpi(AudioFileName(end-3:end),'.wav')),
         AudioFileName = [AudioFileName '.mat'];     % if not specified, save data as .mat file
     end
@@ -159,6 +161,7 @@ nSamp = length(SrcSignal);      % total number of samples in the audio data
 nMics = size(RIR_cell,1);       % number of mics
 nFrames = size(RIR_cell,2);     % number of trajectory points
 
+% TrajDir为ES，没有选中任何东西
 if strcmpi(TrajDir,'ES'),
     RIR_cell = RIR_cell(:,end:-1:1);
 elseif strcmpi(TrajDir,'SMS'),
@@ -185,39 +188,53 @@ for tt=1:nFrames,
     end
     for mm=1:nMics,
         RIRlen = length(RIR_cell{mm,tt});       % length of current RIR can be variable!
+        % maxEndPt 什么意思？什么作用？
+        % 就是在获得所构建音频的最大程度：原始音频+RIR音频
         maxEndPt = max(maxEndPt,FrameStopInd+RIRlen-1);     % endpoint of last source audio sample in current frame convolved with RIR
     end
 end
 
 %-=:=- Compute audio data -=:=-
+% 加回响数据
 AuData = zeros(maxEndPt,nMics);
 if ~SilentFlag, PrintLoopPCw(' [ISM_AudioData] Computing audio data. '); end;
 for tt=1:nFrames,
-   FrameStartInd = (tt-1)*nSampPerFrame+1;	% Start/end indices of the current frame in the overall audio sample.
-   if tt==nFrames,
-       FrameStopInd = nSamp;
-   else
-       FrameStopInd = tt*nSampPerFrame;
-   end
-   FrameData = SrcSignal(FrameStartInd:FrameStopInd);   % get one frame of data
-   for mm=1:nMics,    % Compute the received signal by convolving the source signal with the RIR
-      if ~SilentFlag, PrintLoopPCw((tt-1)*nMics+mm,nFrames*nMics); end;
-      hh = RIR_cell{mm,tt};
-      RIRlen = length(hh);       % length of current RIR (can be variable!)
-      EndIndex = FrameStopInd+RIRlen-1;  % max length for the current convolution.
-      AuData(FrameStartInd:EndIndex,mm) = AuData(FrameStartInd:EndIndex,mm) + freq_conv(hh,FrameData);
-   end
+    FrameStartInd = (tt-1)*nSampPerFrame+1;	% Start/end indices of the current frame in the overall audio sample.
+    if tt==nFrames,
+        FrameStopInd = nSamp;
+    else
+        FrameStopInd = tt*nSampPerFrame;
+    end
+    % FrameData = SrcSignal
+    FrameData = SrcSignal(FrameStartInd:FrameStopInd);   % get one frame of data
+    for mm=1:nMics,    % Compute the received signal by convolving the source signal with the RIR
+        if ~SilentFlag, PrintLoopPCw((tt-1)*nMics+mm,nFrames*nMics); end;
+        hh = RIR_cell{mm,tt};
+        % 会增加回响数据的长度RIRlen的数据量
+        RIRlen = length(hh);       % length of current RIR (can be variable!)
+        EndIndex = FrameStopInd+RIRlen-1;  % max length for the current convolution.
+        % freq_conv:hh和FrameData的卷积操作：也就是信号叠加
+        % 这里需要搞明白卷积实际的物理意义是什么
+        AuData(FrameStartInd:EndIndex,mm) = AuData(FrameStartInd:EndIndex,mm) + freq_conv(hh,FrameData);
+    end
 end
 
+
 %-=:=- Truncate signals -=:=-
+% 把回响数据去除
 if TruncateMicSig==1,
     AuData = AuData(1:nSamp,:);
 end
 
 %-=:=- Additive random noise -=:=-
 if AddNoiseFlag==1,
+    % mean(A)=mean(A,1)对A的每一列求平均，mean(A,2)对每一行求平均
+    % sum(A)=sum(A,1)对A的每一列累加和，mean(A,2)对每一行累加和
+    % 对每一列求平方和/列数，然后求所有行的平均值
+    % 注意这里白噪声的计算
     av_pow = mean( sum(AuData.^2,1)/size(AuData,1) );       % Average mic power across all received signals.
     sigma_noise = sqrt( av_pow/(10^(NoiseSNR/10)) );		% st. dev. of white noise component to achieve desired SNR.
+    % x1(t) = g1(t)*s(t-t1) + m1t(t)
     AuData = AuData + sigma_noise*randn(size(AuData));      % Add some random noise
 end
 

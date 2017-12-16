@@ -94,6 +94,7 @@ VarList = {'Delta_dB'       50;         % maximum attenuation in RIR computation
            'SilentFlag'     0};         % set to 1 to disable on-screen messages
 eval(SetUserVars(VarList,varargin));    % set user-definable variables
 
+% 预处理mat文件名称
 if length(RIRFileName)<=4 || ~strcmpi(RIRFileName(end-3:end),'.mat'),
     RIRFileName = [RIRFileName '.mat'];
 end
@@ -106,6 +107,7 @@ if exist(RIRFileName,'file')==2,
     end
 end
 
+% 初始化所需要的变量
 Fs = setupstruc.Fs;
 room = setupstruc.room;
 micpos = setupstruc.mic_pos;
@@ -136,14 +138,15 @@ nMics = size(micpos,1);     % number of microphones
 nSPts = size(straj,1);      % number of source trajectory points
 
 %-=:=- Compute RIR bank -=:=-
+% 如果声源为单位脉冲声源时，接收位置收到的信号就是声源到该点的声场脉冲响应
 RIR_cell = cell(nMics,nSPts); % pre-allocate cell array
 if ~SilentFlag, PrintLoopPCw(' [ISM_RIR_bank] Computing room impulse responses. '); end;
 for mm=1:nMics,
-    X_rcv = micpos(mm,:);
+    X_rcv = micpos(mm,:);   % 取MIC位置
     for tt=1:nSPts,         % compute ISM room impulse response for each source-receiver combinations
         if ~SilentFlag, PrintLoopPCw((mm-1)*nSPts+tt,nMics*nSPts); end;
-        X_src = straj(tt,:);
-        RIR_cell{mm,tt} = ISM_RoomResp(Fs,beta,rttype,rtval,X_src,X_rcv,room,'SilentFlag',1,'c',cc,'Delta_dB',Delta_dB);
+        X_src = straj(tt,:);    % 取声源位置
+        RIR_cell{mm,tt} = ISM_RoomResp(Fs,beta,rttype,rtval,X_src,X_rcv,room,'SilentFlag',1,'c',cc,'Delta_dB',Delta_dB)
     end
 end
 

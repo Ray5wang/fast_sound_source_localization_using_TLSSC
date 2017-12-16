@@ -1,5 +1,5 @@
 function rr = freq_conv(xx,yy)
-%freq_conv  Performs convolution in frequency domain
+% freq_conv  Performs convolution in frequency domain
 %
 % C = freq_conv(X,Y)
 %
@@ -36,6 +36,8 @@ end
 
 xx = xx(:); yy = yy(:);
 rlen = length(xx)+length(yy)-1;
+% x = nextpow2(rlen):下一个大于rlen的2^x
+% 下试是找到大于rlen的下一个2的幂次方
 rlen_p2 = 2^nextpow2(rlen);
 XX = fft(xx,rlen_p2);
 YY = fft(yy,rlen_p2);
