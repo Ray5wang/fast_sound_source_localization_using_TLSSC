@@ -16,7 +16,8 @@
 % You should have received a copy of the GNU General Public License
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-[SrcSignalVec, Fs]= wavread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
+% [SrcSignalVec, Fs]= wavread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
+[SrcSignalVec, Fs]= audioread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
 M=16;                  % 每个采样点的位宽
 amp_rate= 90.0;         % 幅度放大倍数?
 
