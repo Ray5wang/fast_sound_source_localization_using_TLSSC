@@ -1,4 +1,8 @@
 function [f,t,w]=enframe(x,win,inc,m)
+% 将x信号交叠分帧，每帧win大小，每帧win增大inc，最后一帧如何处理遵循m
+% f分帧后的数据，一行一帧
+% t每帧中心采样的时间
+% w所采用的窗口函数
 %ENFRAME split signal up into (overlapping) frames: one per row. [F,T]=(X,WIN,INC)
 %
 % Usage:  (1) f=enframe(x,n)     % split into frames of length n
@@ -76,9 +80,11 @@ function [f,t,w]=enframe(x,win,inc,m)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 nx=length(x(:));
+% 输入参数的个数<2，或者win为空，则win为整个信号长度
 if nargin<2 || isempty(win)
     win=nx;
 end
+% 输入参数的个数<4，或者w为空，则w为空
 if nargin<4 || isempty(m)
     m='';
 end

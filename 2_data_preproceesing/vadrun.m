@@ -29,7 +29,7 @@ argin = 1;       % Noise estimation (1: enable, 0: disable)
 for i=1:nfile
     wav_file= filelist{i,1};
     results= VAD(wav_file,threshold,win_dur,hop_dur,num_noise,argin);
-    len= length(wav_file);
+    len= length(wav_file)
     save_filename= [wav_file(1:len-4) '_VAD.mat'];
     save(save_filename,'results');
 end

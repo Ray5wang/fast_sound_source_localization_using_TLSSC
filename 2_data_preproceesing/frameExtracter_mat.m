@@ -34,16 +34,22 @@ for i=1:nfile
     load(vadfn); % load VAD result on results
     
     % enframed M channel wavfiles
+    % 创建一个M*1的矩阵
     f= cell(M,1);
     for j=1:M
+        % 这里是要遍历第i种配置所对应的16个音频文件
         read_filename= [filelist{i,1}(1:fnlen-6) sprintf('%02d.wav',j-1)];
-        [x(:,j),Fs]= wavread(read_filename);
-        f{j,1}= enframe(x(:,j),hamming(n,'periodic'),n/2);
+        % [x(:,j),Fs]= wavread(read_filename);
+        [x(:,j),Fs]= audioread(read_filename);
+        f{j,1}= enframe(x(:,j),hamming(n,'periodic'),n/2)
     end
     
+    % results是上面load的结果，也是vad的输出，找到所有为1的帧，也就是有语音的帧
     extract_frames= find(results==1);
     f2= cell(M,1);
     for j=1:M
+        % f{j,1}是个二维数组，每一行为一帧数据
+        % 这里也就是排除了非语音帧
         f2{j,1}= f{j,1}(extract_frames,:);
     end
     
