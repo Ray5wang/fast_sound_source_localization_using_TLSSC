@@ -33,24 +33,28 @@ load(tdoa_table_filename);
 N= size(TDOA_table,2);
 
 % Search max and min for each microphone pair in TDOA_table
+% 每一行存储三个数(min, max, min~max总共数的个数)，MIC对数=行数
 micPair_min_max_table= zeros(N,2);
 for i=1:N
     max_TDOA_value= -inf;
     min_TDOA_value= inf;
+    % 第i列中最大的TDOA值
     tmpMax= max(TDOA_table(:,i));
     if (tmpMax > max_TDOA_value)
         max_TDOA_value= tmpMax;
     end
+    % 第i列中最小的TDOA值
     tmpMin= min(TDOA_table(:,i));
     if (tmpMin < min_TDOA_value)
         min_TDOA_value= tmpMin;
     end
     micPair_min_max_table(i,1)= min_TDOA_value;
     micPair_min_max_table(i,2)= max_TDOA_value;
-    micPair_min_max_table(i,3)= size([min_TDOA_value:max_TDOA_value],2);
+    micPair_min_max_table(i,3)= size([min_TDOA_value:max_TDOA_value],2)
 end
 
 % The creation of inverse map data structure
+% 反向映射表：MIC对数=行数, 每一行里存储一个TDOA的范围表格
 inverse_map= cell(N,1);
 for i=1:N
     num_TDOA_range= micPair_min_max_table(i,3);
@@ -65,6 +69,8 @@ for i=1:N
     TDOA_range= [min_TDOA:max_TDOA];
     for j=1:nTDOA
         target_TDOA= TDOA_range(j);
+        % 第i对MIC对应的TDOA值范围表中第j个值= target_TDOA在全局TDOA表中的索引位置
+        % 这个位置信息可能不存在吧，因为是min到max之间，可能会有不连续的值吧
         inverse_map{i,1}{j,1}= find(TDOA_table(:,i)==target_TDOA);
     end
 end

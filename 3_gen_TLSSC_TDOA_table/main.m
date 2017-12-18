@@ -36,11 +36,12 @@ mic=[0, 122.5, 438; ...		%0
 	-86.6, -86.6, 200; ...	%13 
 	-122.5, 0, 200; ...		%14
 	-86.6, 86.6, 200];  	%15
+% 不是最开始的[400, 400, 60]?
 mic_array_origin= [0 0 400];    % in the room
 
 % Search range
-search_range.theta= 0:1:359;        % degree
-search_range.phi= 1:1:90;           % degree
+search_range.theta= 0:1:359;        % 水平degree
+search_range.phi= 1:1:90;           % 垂直degree
 search_range.r= [2000 2500 3000];   % milli meter
 
 Fs= 16000; % sampling frequency (Hz)
