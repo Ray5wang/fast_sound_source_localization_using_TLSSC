@@ -44,6 +44,7 @@ n_r= size(search_range.r,2);            % 单位直线待搜点数
 % 行数为总的待搜点数，列数为3，放待搜点的xyz坐标值
 cartCoords= zeros(n_theta*n_phi*n_r, 3);
 coordCnt= 0;
+% 优先垂直角，接着水平角，最后距离
 for r=search_range.r
     for ti=search_range.theta
         for pi=search_range.phi;

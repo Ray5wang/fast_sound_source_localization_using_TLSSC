@@ -28,6 +28,7 @@ function []=mk_tdoa_table_tlssc(tdoa_table_filename, ...
 % You should have received a copy of the GNU General Public License
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+% 这个阈值是干什么的？
 threshold= round((1/5) * (55/c) * Fs);
 load(tdoa_table_filename);
 load(tdoa_table_SSC_filename);
@@ -38,8 +39,10 @@ load(tdoa_table_SSC_filename);
 % into the CoordClusterTable.
 fprintf('Two-Level Search Space Clustering ...\n');
 clusterID= 0;
+% SSC中有多少个类
 nCoord= size(TDOA_table_SSC,1);
 CoordClusterTable= zeros(nCoord,1);
+% 对SSC的TDOA表格再次进行阈值聚类，进一步缩小表格
 for i=1:nCoord-1
     fprintf('Processing ... clutser %d/%d\n',i,nCoord);
     if (CoordClusterTable(i,1)~=0)
@@ -51,6 +54,7 @@ for i=1:nCoord-1
     CoordClusterTable(i,1)= clusterID;
     for j=i+1:nCoord
         diffVec= abs(TDOA_table_SSC(i,:) - TDOA_table_SSC(j,:));
+        % 阈值聚类
         if (max(diffVec) <= threshold)
             CoordClusterTable(j,1)= clusterID;
         end
@@ -65,6 +69,7 @@ end
 nCluster= max(CoordClusterTable);
 SSC2= cell(nCluster,1);
 for clusterID=1:nCluster
+    % 获得每一类元素的所有所有索引
     SSC2{clusterID}= find(CoordClusterTable==clusterID);
 end
 save('SSC2.mat','SSC2');
@@ -75,14 +80,18 @@ save('SSC2.mat','SSC2');
 load(ssc_centroids_filename);
 M= size(mic,1);
 N= M*(M-1)/2;
+% 第二次聚类聚出多少类
 nCluster= size(SSC2,1);
+% 相当于TDOA表，只是行数少了
 TDOA_table_SSC2= zeros(nCluster,N);
+% 相当于坐标表，存储聚类中心
 SSC2_centroids= zeros(nCluster,3);
 for i=1:nCluster
     centroid= zeros(1,3);
     nCoord= size(SSC2{i,1},1);
     for j=1:nCoord
         coordIdx= SSC2{i,1}(j,1);
+        % 这次是对上面的聚类中心进行再次聚类，所以只需要搜索上次的聚类坐标表格
         centroid= centroid + SSC_centroids(coordIdx,:);
     end
     centroid= centroid ./ nCoord;
