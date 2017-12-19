@@ -27,12 +27,14 @@ function []=SSL_1_full_search(dataset_dir,tdoa_table_dir,tolerance)
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 DEBUG= 1;
+% 允许误差
 error_tolerance= tolerance.theta;    %degree
 error_tolerance_phi= tolerance.phi;  %degree
 load([tdoa_table_dir '/cartCoords.mat']);
 load([tdoa_table_dir '/TDOA_table.mat']);
+% 右边加上单引号就是转置的意思？
 TDOA_table= TDOA_table'; % For improving memory access pattern.
-filelist= ld_vadlist(dataset_dir);
+filelist= ld_vadlist(dataset_dir)
 nfile= size(filelist,1);
 
 diary('off');
@@ -41,43 +43,53 @@ if exist('./log','dir')
     rmdir('./log','s');
 end
 mkdir('./log');
+% full搜索的结果？
 diary('./log/full_search.txt');
 disp('Full-search (forward mapping SRP-PHAT)');
 time= clock;
 fprintf('%s, %d:%d\n',date,time(4),time(5));
-
 for i=1:nfile  
+    % 遍历每一个音频文件
     filename= filelist{i,1};
     fnlen= size(filename,2);
     disp(filename);
     vadframe_filename= [filename(1:fnlen-9) 'VADed_data.mat'];
+    % 获得f2，vaded音频数据，每一行一帧
     load(vadframe_filename);
     
+    % 这个方法也太笨了吧
     ans_r= str2num(vadframe_filename(43)) * 1000;
     ans_height= 1700 - 400;
     ans_phi= (rad2deg(atan2(ans_height,ans_r)));
     ans_theta= str2num(vadframe_filename(39:41));
     if (DEBUG==1)
+        % 打印了预设的声源位置
         fprintf('ans_theta=%d, ans_phi=%.2f, ans_r=%d\n', ...
                  ans_theta,ans_phi,ans_r);
     end
     
+    % 总共有多少个音频，MIC数
     M= size(f2,1);
+    % 第一个音频的帧数
     nFrame= size(f2{1,1},1);
+    % 第一个音频的第一帧有多少列，也就是一帧的采样点数
     T= size(f2{1,1},2);
     
+    % 这里应该是记录根据音频算出的声源位置
     nCorrectFrame_theta= 0; 
     nCorrectFrame_phi= 0; 
     nCorrectFrame= 0;
     t1= clock;
     for f=1:nFrame
+        % 存储所有MIC音频的第f帧数据
         input_frames= zeros(M,T);
         for m=1:M
             input_frames(m,:)= f2{m,1}(f,:);
         end
         
         % Search (SRP-PHAT forward mapping)
-        I= srp_phat_forward_map(input_frames,TDOA_table);
+        % SRP-PHAT功率计算
+        I= srp_phat_forward_map(input_frames,TDOA_table)
         
         [t,p,r]= cart2sph(cartCoords(I,1),cartCoords(I,2),cartCoords(I,3));
         theta= floor(abs(rad2deg(t)));

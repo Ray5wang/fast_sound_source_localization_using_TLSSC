@@ -24,8 +24,8 @@
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 dataset_dir= '../1_gen_simul_data/TL-SSC_simul_data';
 tdoa_table_dir= '../3_gen_TLSSC_TDOA_table';
-tolerance.theta= 10.001;  % degree
-tolerance.phi= 5.001;     % degree
+tolerance.theta= 10.001;  % 水平degree
+tolerance.phi= 5.001;     % 垂直degree
 
 SSL_1_full_search(dataset_dir,tdoa_table_dir,tolerance)
 SSL_2_inverse_map_run(dataset_dir,tdoa_table_dir,tolerance)
