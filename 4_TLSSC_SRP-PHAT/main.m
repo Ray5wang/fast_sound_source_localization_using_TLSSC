@@ -28,6 +28,6 @@ tolerance.theta= 10.001;  % 水平degree
 tolerance.phi= 5.001;     % 垂直degree
 
 SSL_1_full_search(dataset_dir,tdoa_table_dir,tolerance)
-SSL_2_inverse_map_run(dataset_dir,tdoa_table_dir,tolerance)
+% SSL_2_inverse_map_run(dataset_dir,tdoa_table_dir,tolerance)
 SSL_3_SSC(dataset_dir,tdoa_table_dir,tolerance)
 SSL_4_SSC2_run(dataset_dir,tdoa_table_dir,tolerance)

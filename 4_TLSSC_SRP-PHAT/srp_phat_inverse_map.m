@@ -31,6 +31,7 @@ function [max_srp_index]= srp_phat_inverse_map(...
 M= size(f,1);
 N= M*(M-1)/2;
 T= size(f,2);
+% 两列中的最大值
 max_tdoa= max(abs(micPair_min_max_table(:,1)));
 max_tdoa= max(max_tdoa,max(abs(micPair_min_max_table(:,2))));
 

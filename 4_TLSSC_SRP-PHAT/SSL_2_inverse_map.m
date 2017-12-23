@@ -66,6 +66,7 @@ for i=1:nfile
     M= size(f2,1);
     nFrame= size(f2{1,1},1);
     T= size(f2{1,1},2);
+    % 搜索点的个数
     Q= size(cartCoords,1);
     
     nCorrectFrame_theta= 0; 

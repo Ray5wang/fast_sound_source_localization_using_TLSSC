@@ -89,10 +89,12 @@ for i=1:nfile
         
         % Search (SRP-PHAT forward mapping)
         % SRP-PHAT功率计算
-        I= srp_phat_forward_map(input_frames,TDOA_table)
+        I= srp_phat_forward_map(input_frames,TDOA_table);
         
         [t,p,r]= cart2sph(cartCoords(I,1),cartCoords(I,2),cartCoords(I,3));
+        % 水平角
         theta= floor(abs(rad2deg(t)));
+        % 垂直角
         phi= floor(abs(rad2deg(p)));
         
         % Error count
