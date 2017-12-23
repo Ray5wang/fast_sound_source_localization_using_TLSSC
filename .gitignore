@@ -33,3 +33,7 @@ octave-workspace
 
 # ctags info
 tags
+
+1_gen_simul_data/TL-SSC_simul_data/
+4_TLSSC_SRP-PHAT/log/
+5_plot/
