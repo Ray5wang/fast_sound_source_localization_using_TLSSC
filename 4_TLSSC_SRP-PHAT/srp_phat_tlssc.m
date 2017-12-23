@@ -54,6 +54,7 @@ end
 % SRP (TL-SSC first search)
 center= T/2;
 srp_global= zeros(Q,1);
+Q
 for q=1:Q
     srp_local= 0;
     for p=1:N
@@ -62,8 +63,10 @@ for q=1:Q
     end
     srp_global(q,1)= srp_local;
 end
+save('srp_global.mat', 'srp_global');
 
 % SRP (TL-SSC second search)
+% 目标位置在SSC2 TDOA中的索引(二次聚类的中心点)
 [~,IX]= sort(srp_global,'descend');
 srp_global2= zeros(Q2,1);
 for j=1:nn

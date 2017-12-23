@@ -42,6 +42,8 @@ for m=1:M
     % 对之前音频的每一行做fft变换，所有值都变成了复数了
     X(m,:)= fft(f(m,:));
     % 这里除以每个元素的模，得到就是单位矩阵了
+    % 论文里好像没有单位化啊
+    % 哦哦单位化是因为加上了滤波函数，1/Gij
     X(m,:)= X(m,:)./abs(X(m,:));
 end     
 Z= zeros(N,T);
@@ -53,7 +55,8 @@ for m1=1:M-1
         % conj取共轭
         % m1行.*m2行的共轭表示什么意思?
         % 没两行进行某种操作
-        Z(p,:)= X(m1,:).*conj(X(m2,:))
+        % 计算m1m2的互功率谱
+        Z(p,:)= X(m1,:).*conj(X(m2,:));
     end
 end
 R= zeros(N,T);
@@ -65,9 +68,9 @@ end
 
 % SRP (full search or forward map)
 % 1/2采样点数
-center= T/2;
-% 搜索点的个数
+center= T/2
 srp_global= zeros(Q,1);
+% 搜索点的个数
 for q=1:Q
     srp_local= 0;
     % 遍历MIC对数
@@ -75,11 +78,17 @@ for q=1:Q
         % +center啥意思?
         % 某一个搜索点的第一对MIC TDOA值
         % 这里的计算是个难点，需要好好理解
+        % 这里的center只是作为一个参考点，防止左右移动点时超出了一帧的范围，这样也就无法取得对应的R值
         tau_qp= TDOA_table(p,q) + center;
+        % R矩阵是MIC对*T的矩阵，tau_qp是指第tau_qp个处理后的数据
+        % 还不太懂
         srp_local= srp_local + R(p,tau_qp);
     end
     % 第q个搜索点所对应的功率
     srp_global(q,1)= srp_local;
 end
 
+save('srp_global.mat', 'srp_global')
+% 这里返回的就是在TDOA中的索引，也是在坐标表格中的索引
+% 第一个是值，第二个是索引
 [~,max_srp_index]= max(srp_global);
