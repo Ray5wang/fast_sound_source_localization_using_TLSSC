@@ -16,8 +16,8 @@
 % You should have received a copy of the GNU General Public License
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-% [SrcSignalVec, Fs]= wavread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
-[SrcSignalVec, Fs]= audioread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
+[SrcSignalVec, Fs]= wavread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
+% [SrcSignalVec, Fs]= audioread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
 M=16;                  % 每个采样点的位宽
 amp_rate= 90.0;         % 幅度放大倍数?
 
@@ -32,13 +32,10 @@ for i=1:nRIR            % 产生所有所需要的音频文件
     RIRfn= RIRlist{i};  % 获取文件名称
     fprintf('%s\n',RIRfn);
     AuData= ISM_AudioData(RIRfn,SrcSignalVec);  % 这里正式产生音频文件
-    % audiowrite('AuData1.wav', AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs);
-    % wavwrite(AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs,'AuDatawavwrite.wav');
-    % audiowrite('AuData1.wav', AuData(1:size(SrcSignalVec,1),1), 16000);
     for j=1:M
         str= sprintf('out%02d.wav',j-1);
-        % wavwrite(AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs,str);
-        audiowrite(str, AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs);
+        wavwrite(AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs,str);
+        % audiowrite(str, AuData(1:wav_length,j)*amp_rate + 0.001*randn(wav_length,1),Fs);
         direction= RIRfn(12:14);
         distance= RIRfn(16:17);
         height= RIRfn(19:23);
