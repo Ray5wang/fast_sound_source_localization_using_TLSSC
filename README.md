@@ -15,3 +15,12 @@ Experiment result log files are saved in `./4_TLSSC_SRP-PHAT/log`. For more deta
 
 ### Reference
 Dongsuk Yook, Taewoo Lee, and Youngkyu Cho, ["Fast Sound Source Localization Using Two-Level Search Space Clustering,"](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7039285&sortType=asc_p_Sequence&filter=AND(p_IS_Number:6352949)) IEEE Transactions on Cybernetics, In Press, Feb. 2015
+
+## 修改声源位置
+
+1. 修改1_gen_simul_data/mk_ISM_RIRs.m配置结构体
+2. 修改1_gen_simul_data/mk_dir.m创建音频目录
+3. 修改1_gen_simul_data/ld_RIRlist.m后面所采用的参数
+4. 修改2_data_preproceesing/ld_vadlist.m 2中的配置文件
+4. 修改4_TLSSC_SRP-PHAT/ld_vadlist.m 4中的配置文件
+
