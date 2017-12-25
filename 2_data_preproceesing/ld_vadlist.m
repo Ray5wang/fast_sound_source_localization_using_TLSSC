@@ -21,7 +21,9 @@ dir='../1_gen_simul_data/TL-SSC_simul_data';
 
 %90
 % 字符串的衔接
-filelist(1,:)={[dir '/090/1m/170cm/reverb020/out00.wav']};
+filelist(1,:)={[dir '/090/2m/100cm/reverb020/out00.wav']};
+% filelist(1,:)={[dir '/090/1m/100cm/reverb020/out00.wav']};
+% filelist(1,:)={[dir '/090/1m/170cm/reverb020/out00.wav']};
 % filelist(2,:)={[dir '/090/1m/170cm/reverb300/out00.wav']};
 % filelist(3,:)={[dir '/090/1m/170cm/reverb500/out00.wav']};
 % filelist(4,:)={[dir '/090/1m/170cm/reverb700/out00.wav']};

@@ -1,12 +1,17 @@
 function []=mk_ISM_RIRs(Fs)
 
 % 90
-setSrc_90_1m_170cm_reverb020= ISM_setup(0, 1, 1.70, 0.020, Fs) % 初始化SetupStruc结构体，存放各种条件信息
+% 90代表90度，1m代表低圆半径为1m，100cm代表高度为100cm
+setSrc_90_2m_100cm_reverb020= ISM_setup(0, 2, 1.00, 0.020, Fs) % 初始化SetupStruc结构体，存放各种条件信息
+% setSrc_90_1m_100cm_reverb020= ISM_setup(0, 1, 1.00, 0.020, Fs) % 初始化SetupStruc结构体，存放各种条件信息
+% setSrc_90_1m_170cm_reverb020= ISM_setup(0, 1, 1.70, 0.020, Fs) % 初始化SetupStruc结构体，存放各种条件信息
 % setSrc_90_1m_170cm_reverb300= ISM_setup(0, 1, 1.70, 0.300, Fs);
 % setSrc_90_1m_170cm_reverb500= ISM_setup(0, 1, 1.70, 0.500, Fs);
 % setSrc_90_1m_170cm_reverb700= ISM_setup(0, 1, 1.70, 0.700, Fs);
 % setSrc_90_1m_170cm_reverb900= ISM_setup(0, 1, 1.70, 0.900, Fs);
-ISM_RIR_bank(setSrc_90_1m_170cm_reverb020,'ISM_RIRs_090_1m_170cm_reverb020.mat')
+ISM_RIR_bank(setSrc_90_2m_100cm_reverb020,'ISM_RIRs_090_2m_100cm_reverb020.mat');
+% ISM_RIR_bank(setSrc_90_1m_100cm_reverb020,'ISM_RIRs_090_1m_100cm_reverb020.mat');
+% ISM_RIR_bank(setSrc_90_1m_170cm_reverb020,'ISM_RIRs_090_1m_170cm_reverb020.mat');
 % ISM_RIR_bank(setSrc_90_1m_170cm_reverb300,'ISM_RIRs_090_1m_170cm_reverb300.mat');
 % ISM_RIR_bank(setSrc_90_1m_170cm_reverb500,'ISM_RIRs_090_1m_170cm_reverb500.mat');
 % ISM_RIR_bank(setSrc_90_1m_170cm_reverb700,'ISM_RIRs_090_1m_170cm_reverb700.mat');

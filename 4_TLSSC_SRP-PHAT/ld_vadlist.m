@@ -18,7 +18,9 @@ function [filelist]=ld_vadlist(dataset_dir)
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 %90
-filelist(1,:)={[dataset_dir '/090/1m/170cm/reverb020/out00.wav']};
+filelist(1,:)={[dataset_dir '/090/2m/100cm/reverb020/out00.wav']};
+% filelist(1,:)={[dataset_dir '/090/1m/100cm/reverb020/out00.wav']};
+% filelist(1,:)={[dataset_dir '/090/1m/170cm/reverb020/out00.wav']};
 % filelist(2,:)={[dataset_dir '/090/1m/170cm/reverb300/out00.wav']};
 % filelist(3,:)={[dataset_dir '/090/1m/170cm/reverb500/out00.wav']};
 % filelist(4,:)={[dataset_dir '/090/1m/170cm/reverb700/out00.wav']};

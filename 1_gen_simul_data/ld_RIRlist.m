@@ -19,7 +19,9 @@
 function [filelist]=ld_RIRlist()
 
 %90
-filelist(1,:)={'./ISM_RIRs_090_1m_170cm_reverb020.mat'};
+filelist(1,:)={'./ISM_RIRs_090_2m_100cm_reverb020.mat'};
+% filelist(1,:)={'./ISM_RIRs_090_1m_100cm_reverb020.mat'};
+% filelist(1,:)={'./ISM_RIRs_090_1m_170cm_reverb020.mat'};
 % filelist(2,:)={'./ISM_RIRs_090_1m_170cm_reverb300.mat'};
 % filelist(3,:)={'./ISM_RIRs_090_1m_170cm_reverb500.mat'};
 % filelist(4,:)={'./ISM_RIRs_090_1m_170cm_reverb700.mat'};
