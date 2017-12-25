@@ -58,10 +58,12 @@ for i=1:nfile
     load(vadframe_filename);
     
     % 这个方法也太笨了吧
-    ans_r= str2num(vadframe_filename(43)) * 1000;
-    ans_height= 1700 - 400;
-    ans_phi= (rad2deg(atan2(ans_height,ans_r)));
-    ans_theta= str2num(vadframe_filename(39:41));
+    ans_r= str2num(vadframe_filename(43)) * 1000
+    % ans_height= 1700 - 400;
+    ans_height= str2num(vadframe_filename(46:48)) * 10
+    ans_R= sqrt(ans_r^2 + ans_height^2)
+    ans_phi= (rad2deg(atan2(ans_height,ans_r)))
+    ans_theta= str2num(vadframe_filename(39:41))
     if (DEBUG==1)
         % 打印了预设的声源位置
         fprintf('ans_theta=%d, ans_phi=%.2f, ans_r=%d\n', ...
