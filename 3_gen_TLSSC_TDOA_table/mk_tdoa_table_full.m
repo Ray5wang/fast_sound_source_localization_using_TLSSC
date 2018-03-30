@@ -38,24 +38,41 @@ M= size(mic,1); % number of microphones
 N= M*(M-1)/2; % number of microphone pairs
 
 fprintf('TDOA Table Generation for Full-search\n');
-n_theta= size(search_range.theta,2);    % 单位水平角待搜点数
-n_phi= size(search_range.phi,2);        % 单位垂直角待搜点数
-n_r= size(search_range.r,2);            % 单位直线待搜点数
-% 行数为总的待搜点数，列数为3，放待搜点的xyz坐标值
-cartCoords= zeros(n_theta*n_phi*n_r, 3);
+% n_theta= size(search_range.theta,2);    % 单位水平角待搜点数
+% n_phi= size(search_range.phi,2);        % 单位垂直角待搜点数
+% n_r= size(search_range.r,2);            % 单位直线待搜点数
+% % 行数为总的待搜点数，列数为3，放待搜点的xyz坐标值
+% cartCoords= zeros(n_theta*n_phi*n_r, 3);
+% coordCnt= 0;
+% % 优先垂直角，接着水平角，最后距离
+% for r=search_range.r
+%     for ti=search_range.theta
+%         for pi=search_range.phi;
+%             [x(1),x(2),x(3)]= sph2cart(deg2rad(ti),deg2rad(pi),r);
+%             coordCnt= coordCnt+1;
+%             cartCoords(coordCnt,:)= x + mic_array_origin;
+%         end
+%     end
+% end
+% coordCnt
+% save('cartCoords.mat','cartCoords','coordCnt');
+%%----------------------------------------
+n_x= size(search_range.x, 2);
+n_y= size(search_range.y, 2);
+n_z= size(search_range.z, 2);
+cartCoords= zeros(n_x*n_y*n_z, 3);
 coordCnt= 0;
-% 优先垂直角，接着水平角，最后距离
-for r=search_range.r
-    for ti=search_range.theta
-        for pi=search_range.phi;
-            [x(1),x(2),x(3)]= sph2cart(deg2rad(ti),deg2rad(pi),r);
+for z=search_range.z
+    for y=search_range.y
+        for x=search_range.x;
+            % [x(1),x(2),x(3)]= sph2cart(deg2rad(ti),deg2rad(pi),r);
             coordCnt= coordCnt+1;
-            cartCoords(coordCnt,:)= x + mic_array_origin;
+            cartCoords(coordCnt,:)= [x, y, z];
         end
     end
 end
+coordCnt
 save('cartCoords.mat','cartCoords','coordCnt');
-
 % 每一行对应着某个搜索点对应的MIC对的TDOA值
 TDOA_table= zeros(coordCnt,N);
 for i=1:coordCnt        % 坐标的个数，每个坐标对应着M*(M-1)/2个TDOA值
