@@ -66,8 +66,8 @@ for i=1:nfile
     ans_theta= str2num(vadframe_filename(39:41))
     if (DEBUG==1)
         % 打印了预设的声源位置
-        fprintf('ans_theta=%d, ans_phi=%.2f, ans_r=%d\n', ...
-                 ans_theta,ans_phi,ans_r);
+        fprintf('ans_theta=%d, ans_phi=%.2f, ans_R=%.2f\n', ...
+                 ans_theta,ans_phi,ans_R);
     end
     
     % 总共有多少个音频，MIC数
@@ -91,9 +91,17 @@ for i=1:nfile
         
         % Search (SRP-PHAT forward mapping)
         % SRP-PHAT功率计算
-        I= srp_phat_forward_map(input_frames,TDOA_table);
+        cart= zeros(1, 3);
+        [I, maxCount]= srp_phat_forward_map(input_frames,TDOA_table);
+        for i=1:maxCount
+            cart(1) = cart(1) + cartCoords(I(i), 1);
+            cart(2) = cart(2) + cartCoords(I(i), 2);
+            cart(3) = cart(3) + cartCoords(I(i), 3);
+        end
+        cart= cart./maxCount;
         
-        [t,p,r]= cart2sph(cartCoords(I,1),cartCoords(I,2),cartCoords(I,3));
+        % [t,p,r]= cart2sph(cartCoords(I,1),cartCoords(I,2),cartCoords(I,3));
+        [t,p,r]= cart2sph(cart(1), cart(2), cart(3));
         % 水平角
         theta= floor(abs(rad2deg(t)));
         % 垂直角
