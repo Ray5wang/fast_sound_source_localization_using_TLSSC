@@ -1,4 +1,4 @@
-function [max_srp_index]= srp_phat_forward_map(f, ...   % M by T matrix
+function [max_srp_index, maxCount]= srp_phat_forward_map(f, ...   % M by T matrix
                                                TDOA_table)
 % f为MIC数的音频，每一行一个MIC的一帧数据
 % 采样一帧数据进行定位
@@ -65,10 +65,12 @@ for p=1:N
     % 先假设得到了这N MIC对的交互数据
     R(p,:)= fftshift(real(ifft(Z(p,:))));
 end
+save('f.mat', 'f');
+save('R.mat', 'R');
 
 % SRP (full search or forward map)
 % 1/2采样点数
-center= T/2
+center= T/2+1;
 srp_global= zeros(Q,1);
 % 搜索点的个数
 for q=1:Q
@@ -91,4 +93,18 @@ end
 save('srp_global.mat', 'srp_global')
 % 这里返回的就是在TDOA中的索引，也是在坐标表格中的索引
 % 第一个是值，第二个是索引
-[~,max_srp_index]= max(srp_global);
+maxCount= 1;
+[max_srp, max_srp_index(1)]= max(srp_global);
+srp_global(max_srp_index(1))= 0;
+maxCount= maxCount + 1;
+[max_srp_tmp, max_srp_index(maxCount)]= max(srp_global);
+while max_srp == max_srp_tmp
+    srp_global(max_srp_index(maxCount))= 0;
+    maxCount= maxCount + 1;
+    [max_srp_tmp, max_srp_index(maxCount)]= max(srp_global);
+end
+
+maxCount= maxCount - 1;
+% max_srp_index
+
+% [~,max_srp_index]= max(srp_global);
