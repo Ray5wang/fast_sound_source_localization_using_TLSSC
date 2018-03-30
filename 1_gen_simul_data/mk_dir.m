@@ -22,9 +22,47 @@ end
 mkdir('./TL-SSC_simul_data');
 
 mkdir('./TL-SSC_simul_data/090');
+mkdir('./TL-SSC_simul_data/090/1m');
+mkdir('./TL-SSC_simul_data/090/1m/100cm');
+mkdir('./TL-SSC_simul_data/090/1m/100cm/reverb020');
+
 mkdir('./TL-SSC_simul_data/090/2m');
 mkdir('./TL-SSC_simul_data/090/2m/100cm');
 mkdir('./TL-SSC_simul_data/090/2m/100cm/reverb020');
+
+mkdir('./TL-SSC_simul_data/090/3m');
+mkdir('./TL-SSC_simul_data/090/3m/100cm');
+mkdir('./TL-SSC_simul_data/090/3m/100cm/reverb020');
+
+mkdir('./TL-SSC_simul_data/000');
+mkdir('./TL-SSC_simul_data/000/1m');
+mkdir('./TL-SSC_simul_data/000/1m/100cm');
+mkdir('./TL-SSC_simul_data/000/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/045');
+mkdir('./TL-SSC_simul_data/045/1m');
+mkdir('./TL-SSC_simul_data/045/1m/100cm');
+mkdir('./TL-SSC_simul_data/045/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/135');
+mkdir('./TL-SSC_simul_data/135/1m');
+mkdir('./TL-SSC_simul_data/135/1m/100cm');
+mkdir('./TL-SSC_simul_data/135/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/180');
+mkdir('./TL-SSC_simul_data/180/1m');
+mkdir('./TL-SSC_simul_data/180/1m/100cm');
+mkdir('./TL-SSC_simul_data/180/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/225');
+mkdir('./TL-SSC_simul_data/225/1m');
+mkdir('./TL-SSC_simul_data/225/1m/100cm');
+mkdir('./TL-SSC_simul_data/225/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/270');
+mkdir('./TL-SSC_simul_data/270/1m');
+mkdir('./TL-SSC_simul_data/270/1m/100cm');
+mkdir('./TL-SSC_simul_data/270/1m/100cm/reverb020');
+mkdir('./TL-SSC_simul_data/315');
+mkdir('./TL-SSC_simul_data/315/1m');
+mkdir('./TL-SSC_simul_data/315/1m/100cm');
+mkdir('./TL-SSC_simul_data/315/1m/100cm/reverb020');
+
 % mkdir('./TL-SSC_simul_data/090/1m');
 % mkdir('./TL-SSC_simul_data/090/1m/100cm');
 % mkdir('./TL-SSC_simul_data/090/1m/100cm/reverb020');

@@ -19,7 +19,20 @@
 function [filelist]=ld_RIRlist()
 
 %90
-filelist(1,:)={'./ISM_RIRs_090_2m_100cm_reverb020.mat'};
+filelist(1,:)={'./ISM_RIRs_090_1m_100cm_reverb020.mat'};
+filelist(2,:)={'./ISM_RIRs_090_2m_100cm_reverb020.mat'};
+filelist(3,:)={'./ISM_RIRs_090_3m_100cm_reverb020.mat'};
+% filelist(4,:)={'./ISM_RIRs_090_4m_100cm_reverb020.mat'};
+% filelist(5,:)={'./ISM_RIRs_090_5m_100cm_reverb020.mat'};
+
+filelist(4,:)={'./ISM_RIRs_000_1m_100cm_reverb020.mat'};
+filelist(5,:)={'./ISM_RIRs_045_1m_100cm_reverb020.mat'};
+% filelist(7,:)={'./ISM_RIRs_090_1m_100cm_reverb020.mat'};
+filelist(6,:)={'./ISM_RIRs_135_1m_100cm_reverb020.mat'};
+filelist(7,:)={'./ISM_RIRs_180_1m_100cm_reverb020.mat'};
+filelist(8,:)={'./ISM_RIRs_225_1m_100cm_reverb020.mat'};
+filelist(9,:)={'./ISM_RIRs_270_1m_100cm_reverb020.mat'};
+filelist(10,:)={'./ISM_RIRs_315_1m_100cm_reverb020.mat'};
 % filelist(1,:)={'./ISM_RIRs_090_1m_100cm_reverb020.mat'};
 % filelist(1,:)={'./ISM_RIRs_090_1m_170cm_reverb020.mat'};
 % filelist(2,:)={'./ISM_RIRs_090_1m_170cm_reverb300.mat'};
