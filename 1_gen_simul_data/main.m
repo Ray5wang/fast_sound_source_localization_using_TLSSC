@@ -18,10 +18,10 @@
 
 [SrcSignalVec, Fs]= wavread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
 % [SrcSignalVec, Fs]= audioread('LDC93S1.wav');     % 获得音频的信息，数据，采样率
-M=16;                  % 每个采样点的位宽
+M= 4;                   % MIC的个数
 amp_rate= 90.0;         % 幅度放大倍数?
 
-disp(['audio info:--------------']), size(SrcSignalVec), Fs, M, disp(['-------------------------'])
+% disp(['audio info:--------------']), size(SrcSignalVec), Fs, M, disp(['-------------------------'])
 
 mk_ISM_RIRs(Fs);        % 根据参数设置产生音频mat文件
 mk_dir;                 % 产生存放仿真音频文件的目录结构
