@@ -20,7 +20,7 @@
 % along with this program. If not, see <http://www.gnu.org/licenses/>.
 clc; clear all;
 
-M= 16;
+M= 4;
 n= 4096;   % number of samples in a frame
 filelist= ld_vadlist();
 nfile= size(filelist,1);
